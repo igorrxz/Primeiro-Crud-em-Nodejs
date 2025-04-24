@@ -1,3 +1,6 @@
+// Controladores com as funções que interagem diretamente com o banco de dados.
+// Cada função executa uma query e retorna o resultado (ou erro) na resposta HTTP.
+
 import { db } from "../db.js";
 
 export const getUsers = (_, res) => {

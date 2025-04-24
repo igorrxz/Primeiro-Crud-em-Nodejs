@@ -1,3 +1,9 @@
+// Este componente é responsável pelo formulário de cadastro e edição de usuários.
+// Ele permite preencher os campos: nome, e-mail, telefone e data de nascimento.
+// Utiliza `useRef` para manipular os inputs diretamente e `useEffect` para preencher os campos em caso de edição.
+// Também faz requisições POST para cadastrar e PUT para atualizar usuários no backend via axios.
+// Exibe mensagens de sucesso ou erro com a biblioteca react-toastify.
+
 import axios from "axios";
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";

@@ -1,3 +1,6 @@
+// Roteador principal dos endpoints relacionados aos usuários.
+// Cada rota chama um controller responsável pela lógica específica.
+
 import express from "express";
 import { addUser, deleteUser, getUsers, updateUser } from "../controllers/user.js";
 

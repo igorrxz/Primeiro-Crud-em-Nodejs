@@ -1,3 +1,8 @@
+// Este componente exibe a tabela com todos os usuários cadastrados.
+// Permite editar ou excluir um usuário através dos ícones de ação (ícones do react-icons).
+// Usa axios para fazer a requisição DELETE e atualiza o estado da lista local após a exclusão.
+// Também exibe mensagens de feedback utilizando react-toastify.
+
 import React from "react";
 import axios from "axios";
 import styled from "styled-components";
