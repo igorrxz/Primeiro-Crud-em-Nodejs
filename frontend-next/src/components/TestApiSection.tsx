@@ -24,6 +24,9 @@ export default function TestApiSection() {
   const [searchId, setSearchId] = useState("");
   const [userById, setUserById] = useState<Usuario | null>(null);
   const [errorById, setErrorById] = useState("");
+  const [searchName, setSearchName] = useState("");
+  const [usersByName, setUsersByName] = useState<Usuario[]>([]);
+  const [errorByName, setErrorByName] = useState("");
 
   // Buscar todos os usuários
   const fetchUsuarios = async () => {
@@ -101,6 +104,24 @@ export default function TestApiSection() {
       }
     } catch (err) {
       setErrorById("Error searching user by ID");
+    }
+  };
+
+  const handleSearchByName = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorByName("");
+    setUsersByName([]);
+    if (!searchName) return;
+    try {
+      const res = await fetch(`${apiUrl}/search/${searchName}`);
+      const data = await res.json();
+      if (res.status === 200 && Array.isArray(data)) {
+        setUsersByName(data);
+      } else {
+        setErrorByName("No users found");
+      }
+    } catch (err) {
+      setErrorByName("Error searching users by name");
     }
   };
 
@@ -214,6 +235,33 @@ export default function TestApiSection() {
               <div><b>Email:</b> {userById.email}</div>
               <div><b>Phone:</b> {userById.fone}</div>
               <div><b>Birthdate:</b> {userById.data_nascimento}</div>
+            </div>
+          )}
+        </div>
+        {/* Seção: Buscar usuários por nome */}
+        <div className="w-full max-w-md bg-white dark:bg-gray-900 p-6 rounded shadow flex flex-col gap-2 mt-8">
+          <h3 className="text-lg font-bold mb-2 text-gray-800 dark:text-gray-100">Search Users by Name</h3>
+          <form onSubmit={handleSearchByName} className="flex gap-2 mb-2">
+            <input
+              type="text"
+              placeholder="User Name"
+              value={searchName}
+              onChange={e => setSearchName(e.target.value)}
+              className="px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 w-full"
+              required
+            />
+            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Search</button>
+          </form>
+          {errorByName && <div className="text-red-500 font-semibold">{errorByName}</div>}
+          {usersByName.length > 0 && (
+            <div className="bg-gray-50 dark:bg-gray-800 rounded p-4 mt-2">
+              <ul className="list-disc pl-4">
+                {usersByName.map((u) => (
+                  <li key={u.id}>
+                    <b>{u.nome}</b> — {u.email} — {u.fone} — {u.data_nascimento}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </div>
