@@ -21,6 +21,9 @@ export default function TestApiSection() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [searchId, setSearchId] = useState("");
+  const [userById, setUserById] = useState<Usuario | null>(null);
+  const [errorById, setErrorById] = useState("");
 
   // Buscar todos os usuários
   const fetchUsuarios = async () => {
@@ -80,6 +83,24 @@ export default function TestApiSection() {
       }
     } catch (err) {
       setError("Erro ao deletar usuário");
+    }
+  };
+
+  const handleSearchById = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorById("");
+    setUserById(null);
+    if (!searchId) return;
+    try {
+      const res = await fetch(`${apiUrl}/${searchId}`);
+      const data = await res.json();
+      if (res.status === 200 && data) {
+        setUserById(data);
+      } else {
+        setErrorById(typeof data === "string" ? data : "User not found");
+      }
+    } catch (err) {
+      setErrorById("Error searching user by ID");
     }
   };
 
@@ -170,6 +191,31 @@ export default function TestApiSection() {
               </tbody>
             </table>
           </div>
+        </div>
+        {/* Seção: Buscar usuário por ID */}
+        <div className="w-full max-w-md bg-white dark:bg-gray-900 p-6 rounded shadow flex flex-col gap-2 mt-8">
+          <h3 className="text-lg font-bold mb-2 text-gray-800 dark:text-gray-100">Search User by ID</h3>
+          <form onSubmit={handleSearchById} className="flex gap-2 mb-2">
+            <input
+              type="number"
+              placeholder="User ID"
+              value={searchId}
+              onChange={e => setSearchId(e.target.value)}
+              className="px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 w-full"
+              required
+            />
+            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Search</button>
+          </form>
+          {errorById && <div className="text-red-500 font-semibold">{errorById}</div>}
+          {userById && (
+            <div className="bg-gray-50 dark:bg-gray-800 rounded p-4 mt-2">
+              <div><b>ID:</b> {userById.id}</div>
+              <div><b>Name:</b> {userById.nome}</div>
+              <div><b>Email:</b> {userById.email}</div>
+              <div><b>Phone:</b> {userById.fone}</div>
+              <div><b>Birthdate:</b> {userById.data_nascimento}</div>
+            </div>
+          )}
         </div>
       </div>
     </section>
