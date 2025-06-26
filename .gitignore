@@ -1,5 +1,6 @@
 # Node
 node_modules/
+.gitignore      
 
 # Logs
 npm-debug.log*
