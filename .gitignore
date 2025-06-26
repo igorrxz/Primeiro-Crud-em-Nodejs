@@ -1,0 +1,39 @@
+# Node
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ambiente
+.env
+.env.*
+
+# Build e cache
+.next/
+/out/
+/build/
+coverage/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# Outros
+*.tsbuildinfo
+*.pem
+
+# Frontend
+frontend-next/node_modules/
+frontend-next/.next/
+frontend-next/.env.local
+frontend-next/.env*
+
+# Backend
+api/node_modules/
+api/.env
+api/.env.* 
